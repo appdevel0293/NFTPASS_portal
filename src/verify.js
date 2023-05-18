@@ -2,6 +2,7 @@
 import React, { useEffect, useState} from 'react';
 import {db} from "./firebase";
 import {set, ref, get, update} from "firebase/database";
+import {verifyTicket} from './blockchain'
 
 
 function Verify(){
@@ -21,6 +22,11 @@ function Verify(){
         update(databaseRef, {action: "scanned"});
         setStep("Connecting");
 
+        verifyTicket(databaseRef, setStep);
+
+
+
+
 
     });
 
@@ -29,6 +35,12 @@ function Verify(){
 
     return(
         <div>
+          <header >
+        <p>
+          {step}
+        </p>
+      
+      </header>
 
         </div>
     );

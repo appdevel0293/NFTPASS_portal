@@ -52,10 +52,14 @@ export async function verifyTicket(databaseRef, setStep){
 
 
 
-    });
+    }).catch((error) => {
+        console.error(error);
+      });
 
         }
-    );
+    ).catch((error) => {
+        console.error(error);
+      });
 
 }
 
@@ -85,7 +89,9 @@ async function verification(clientAccount, databaseRef, setStep) {
             setStep("No matching tickets found on this wallet");
 
         }
-    });
+    }).catch((error) => {
+        console.error(error);
+      });
 
 }
 
@@ -115,5 +121,7 @@ async function isVerified(id){
     let contractNFT = await getInstanceContract();
     return contractNFT.methods.getVerified(0,id).call().then((result) => {
         return result;
-    });
+    }).catch((error) => {
+        console.error(error);
+      });
 }
