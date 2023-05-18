@@ -13,7 +13,7 @@ export default function App() {
                 <Route>
                     <Route index element = {<Home/>} />
                     <Route path="access" element = {<Access/>} />
-                    <Route path = "verify" elemnt = {<Verify />} />
+                    <Route path = "verify" element = {<Verify />} />
                 </Route>
             </Routes>
         </BrowserRouter>
