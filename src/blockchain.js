@@ -20,6 +20,7 @@ export async function verifyTicket(databaseRef, setStep){
     const isPhantomInstalled = window?.phantom?.ethereum?.isPhantom;
 
     if(!isPhantomInstalled){
+        console.log("inside is phaton instaled")
         update(databaseRef, { action: "no phantom" });
         setStep("Please connect from phantom App");
         return;
@@ -29,22 +30,29 @@ export async function verifyTicket(databaseRef, setStep){
     const provider = window.phantom?.ethereum;
 
     if(!provider){
+        console.log("inside isnot provider")
+
         update(databaseRef, { action: "no ethereum" });
         setStep("Please configure required Blockchain");
         return;
 
     }
 
-    provider.request({method: 'eth_requestAcconts'}).then( (accounts) =>{
+    provider.request({method: 'eth_requestAccounts'}).then( (accounts) =>{
     clientAccount = accounts[0];
+    console.log("inside request eth accounts")
+    console.log(clientAccount);
 
     update(databaseRef, { action: "connected", account: clientAccount });
     setStep("Wallet connected, verifying ticket");
 
     provider.request({
         method: 'wallet_switchEthereumChain',
-        params: {quicknodeRPCConfig}
+        params: [quicknodeRPCConfig]
     }).then(()=>{
+
+        console.log("inside rwhitch ethereum chain")
+
 
         phantomProviderEVM = provider;
         verification(clientAccount, databaseRef, setStep);
@@ -64,6 +72,7 @@ export async function verifyTicket(databaseRef, setStep){
 }
 
 async function verification(clientAccount, databaseRef, setStep) {
+    console.log("verification")
     
     await getWalletNFT(clientAccount).then(id => {
         if(id!=0){
@@ -96,16 +105,20 @@ async function verification(clientAccount, databaseRef, setStep) {
 }
 
 async function getWalletNFT(clientAccount){
+    console.log("get wallet nft")
     
     let contractNFT = await getInstanceContract(); 
-    return contractNFT.methods.getIdOwnedbyAccount(0, clientAccount).then((d) => {
+    return contractNFT.methods.getIdOwnedbyAccount(0, clientAccount).call().then((d) => {
+        console.log("se consiguio la id de "  +d)
         return d;
+
     });
 }
 
 async function getInstanceContract(){
+    console.log("inside get instance contract")
     if(!globalContractnNFT){
-    let web3 = new Web3(phantomProviderEvm);
+    let web3 = new Web3(phantomProviderEVM);
     const contract = await new web3.eth.Contract(ABI, CONTRACT_ADDRESS);
     globalContractnNFT = contract;
     return contract;
@@ -118,6 +131,8 @@ async function getInstanceContract(){
 }
 
 async function isVerified(id){
+    console.log("inside gis verified")
+
     let contractNFT = await getInstanceContract();
     return contractNFT.methods.getVerified(0,id).call().then((result) => {
         return result;
