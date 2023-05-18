@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css?family=Archivo Black');
+
+body {
+    font-family: 'Archivo Black';
+    font-size: 32px;
+  }
+
+  h1 {
+    font-size: 6rem;
+    color: white;
+    text-align: center;
+  }
+
+  p {
+    font-size: 3rem;
+    color: white;
+  }
+
+  .scanned {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: #4A94A8;
+  }
+
+  .alert {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: #D2312D;
+  }
+
+  .access-granted {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: #65A84A;
+  }
+
+  .spinner-icon {
+    font-size: 80px;
+    animation: spin 1s infinite linear;
+    color: white;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+
+
+
+  
