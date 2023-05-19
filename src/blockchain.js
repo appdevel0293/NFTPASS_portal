@@ -94,6 +94,7 @@ async function verification(clientAccount, databaseRef, setStep) {
         if (!isV) {
             update(databaseRef, { action: "granted" });
             setStep("Ticket is valid, Welcome to the QuickNode Party!");
+            setVerify(id,true);
 
         } else {
 
@@ -169,6 +170,26 @@ async function isVerified(id) {
     }
 
  
+
+}
+
+async function setVerify(id, flag) {
+
+    fetch("https://setverifyserver.onrender.com",
+    {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id, flag: flag }), 
+
+    }).then(response => response.json()).then(data => {
+ 
+        console.log(data);
+      })  .catch(error => {
+
+        console.error(error);
+      });
 
 }
 
