@@ -176,7 +176,7 @@ async function isVerified(id) {
 async function setVerify(id, flag) {
 
 
-    fetch("https://setverifyserver.onrender.com/serVerified",
+    fetch("https://setverifyserver.onrender.com/setVerified",
     {
         method: 'POST',
         headers: {
