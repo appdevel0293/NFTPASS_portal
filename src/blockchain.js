@@ -181,7 +181,7 @@ async function setVerify(id, flag) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: id, flag: flag }), 
+        body: JSON.stringify({ id: `${id}`, flag: `${flag}` }), 
 
     }).then(response => response.json()).then(data => {
  
