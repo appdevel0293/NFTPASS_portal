@@ -72,36 +72,29 @@ export async function verifyTicket(databaseRef, setStep){
 }
 
 async function verification(clientAccount, databaseRef, setStep) {
-    console.log("verification")
-    
-    await getWalletNFT(clientAccount).then(id => {
-        if(id!=0){
+    try {
+        const id = await getWalletNFT(clientAccount);
+
+        if (id != 0) {
             update(databaseRef, { action: "possess" });
             setStep("Ticket found, verifying validity");
-            const isV = isVerified(id);
+            const isV = await isVerified(id);
+            console.log("isVerified has a value of " + isV);
 
-            if(!isV){
+            if (!isV) {
                 update(databaseRef, { action: "granted" });
                 setStep("Ticket is valid, Welcome to the QuickNode Party!");
-
-            }
-            else {
+            } else {
                 update(databaseRef, { action: "already_used" });
                 setStep("Ticket has already been used");
-
             }
-
-
-        }
-        else{
+        } else {
             update(databaseRef, { action: "denied" });
             setStep("No matching tickets found on this wallet");
-
         }
-    }).catch((error) => {
+    } catch (error) {
         console.error(error);
-      });
-
+    }
 }
 
 async function getWalletNFT(clientAccount){
@@ -130,13 +123,14 @@ async function getInstanceContract(){
 
 }
 
-async function isVerified(id){
-    console.log("inside gis verified")
+async function isVerified(id) {
+    console.log("inside isVerified");
 
     let contractNFT = await getInstanceContract();
-    return contractNFT.methods.getVerified(0,id).call().then((result) => {
+    try {
+        const result = await contractNFT.methods.getVerified(0, id).call();
         return result;
-    }).catch((error) => {
+    } catch (error) {
         console.error(error);
-      });
+    }
 }
